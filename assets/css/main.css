@@ -1,0 +1,107 @@
+.comment-form{
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-grow: 1;
+}
+
+.comment-form textarea{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border:1px solid #CCC;
+    margin-right: 10px;
+    max-height: 70px;
+}
+
+
+.comment-form button{
+    background-color: cornflowerblue;
+    color: #dfdfdf;
+    border: none;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+#comments{
+    width: 1056px;
+    margin: auto;
+}
+
+.googleAuth-warp{
+    width: 1056px;
+    margin: auto;
+}
+
+.comment-main-warp{
+    display: flex;
+}
+
+.comment-author{
+    font-weight: bold;
+    margin: 10px;
+}
+
+.comment-text{
+    margin: 10px;
+    padding-left: 10px;
+}
+
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.no-btn{
+    border: none;
+    background: transparent;
+}
+
+.comment-picture{
+    margin: 20px;
+}
+
+.comment-picture img{
+    height: 70px;
+    border-radius: 50%;
+}
+
+
+
+.comment-response{
+   background-color: cornflowerblue;
+    color: #dfdfdf;
+    border: none;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+.btn:hover{
+   color: #fff;
+}
+
+.comment-content-warp{
+    width: 800px;
+}
