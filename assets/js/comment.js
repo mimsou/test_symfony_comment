@@ -1,7 +1,6 @@
    var commentModule = {}
    commentModule.data = [];
    commentModule.config = {}
-   window.confSetEvent = false;
    commentModule.reload = ()=>{
       location.reload()
    }
@@ -44,6 +43,9 @@
 
    commentModule.setEvents = ()=>{
          $("body").on("click",".comment-form-submit" , function(){
+            if(!isConnected()){
+
+            }
             var parentComment = $(this).data("parent") != "" ? $(this).data("parent") : null;
             var textComment = $(this).parents(".comment-form").find("#comment-form-inp").val();
             var elm = $(this).parents(".comment-form")
@@ -101,6 +103,7 @@
 
 
    commentModule.initGoogleAuth = ()=>{
+
        function onSignIn(googleUser) {
        var id_token = googleUser.getAuthResponse().id_token;
       console.log(api_url+'/google-auth')

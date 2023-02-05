@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <meta name="google-signin-client_id" content="473731290302-jvn3aofq30c3h98ln2rb70499gkgqnn3.apps.googleusercontent.com">
     <script src="assets/js/jQuery.js"></script>
     <script src="assets/js/captcha.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -17,8 +16,13 @@
 </head>
 <body>
 <h1>Page 2</h1>
-<div class="g-signin2 googleAuth-warp" data-onsuccess="onSignIn"></div>
+<div id="g_id_onload"
+     data-client_id="473502850114-hlm2upef1dgsdq675hja991uivhb75j9.apps.googleusercontent.com"
+     data-callback="handleCredentialResponse">
+</div>
+<div class="g_id_signin" data-type="standard"></div>
 <div id="comments"></div>
 <input type="hidden" id="page-id" value="2">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
 </html>
