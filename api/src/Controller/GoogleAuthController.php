@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\JWTservice;
 use App\Service\GlobalRestResponse;
-
+use Google_Client;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 #[Route('/auth')]
 class GoogleAuthController extends AbstractController
@@ -17,36 +21,39 @@ class GoogleAuthController extends AbstractController
 
     private $response;
 
-    public function __construct(GlobalRestResponse $globalRespons,)
+    public function __construct(GlobalRestResponse $globalResponse)
     {
         $this->response = $globalResponse;
     }
     #[Route('/google-auth', name: 'app_googleauth')]
-    public function handleGoogleAuth(Request $request,JWTservice $jwt)
+    public function handleGoogleAuth(Request $request,JWTservice $jwt,UserRepository $repo,JWTTokenManagerInterface $JWTManager)
     {
-        $idToken = $request->request->get('id_token');
+        $client = new Google_Client(['client_id' => '473502850114-hlm2upef1dgsdq675hja991uivhb75j9.apps.googleusercontent.com']);
+        $payload = $client->verifyIdToken($request->get('id_token'));
+        if ($payload) {
 
-        $client = new Client();
-        $response = $client->get('https://oauth2.googleapis.com/tokeninfo?id_token=' . $idToken);
+            $email = $payload["email"];
+            $name = $payload["name"];
+            $picture = $payload["picture"];
 
-        $userData = json_decode($response->getBody()->getContents(), true);
+            if(empty($user = $repo->findOneBy(['email'=>$email]))){
+                $user = New User();
+                $user->setEmail($email);
+                $user->setPicture($picture);
+                $user->setName($name);
+                $repo->save($user,true);
+            }
+            $token = $JWTManager->create($user);
+            $serializer = new Serializer([new ObjectNormalizer()],  [new JsonEncoder()]);
+            $serialisedUser = $serializer->serialize($user, 'json');
 
-        if (isset($data['error_description'])) {
-            return new JsonResponse(['error' => $data['error_description']]);
+            return $this->response->success(['token' => $token,'user'=>json_decode($serialisedUser)]);
+
+        } else {
+            return $this->response->error("","Erruer d'authentification");
         }
 
-        $data = [
-            'username' => $userData['email'],
-            'roles' => ['ROLE_USER'],
-            'token' => $jwt->encode([
-                'username' => $userData['email'],
-                'roles' => ['ROLE_USER'],
-                'exp' => time() + 3600,
-            ]),
-        ];
 
-
-        return $this->response->success($data);
 
     }
 }

@@ -24,11 +24,12 @@ commentService.getCommentsFromPageId = (pageId,callback) => {
     })
 }
 
-commentService.addComment = (  parentId,commentText,pageId,callback) => {
+commentService.addComment = (  parentId,commentText,pageId,user,callback) => {
     var data = {
         parentId:parentId,
         commentText:commentText,
-        pageId:pageId
+        pageId:pageId,
+        user:user
     }
     api.call("POST",api_url+"/comment/add-comment",data, function(result){
         if(typeof callback == 'function')  callback(result);

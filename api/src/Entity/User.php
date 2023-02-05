@@ -23,15 +23,21 @@ class User implements UserInterface
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $password;
 
     #[ORM\OneToMany(mappedBy: 'authorId', targetEntity: Comments::class, orphanRemoval: true)]
     private Collection $comments;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $picture = null;
+
     public function __construct()
     {
-        $this->parentId = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -92,32 +98,26 @@ class User implements UserInterface
 
     }
 
-    /**
-     * @return Collection<int, Comments>
-     */
-    public function getParentId(): Collection
+    public function getName(): ?string
     {
-        return $this->parentId;
+        return $this->name;
     }
 
-    public function addParentId(Comments $parentId): self
+    public function setName(?string $name): self
     {
-        if (!$this->parentId->contains($parentId)) {
-            $this->parentId->add($parentId);
-            $parentId->setAuthorId($this);
-        }
+        $this->name = $name;
 
         return $this;
     }
 
-    public function removeParentId(Comments $parentId): self
+    public function getPicture(): ?string
     {
-        if ($this->parentId->removeElement($parentId)) {
-            // set the owning side to null (unless already changed)
-            if ($parentId->getAuthorId() === $this) {
-                $parentId->setAuthorId(null);
-            }
-        }
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }

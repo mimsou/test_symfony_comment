@@ -8,9 +8,9 @@
       getSingleComment: (data,isParent = true) => {
          console.log(data);
          return `<div  class="comment-main-warp ${data.isTopLevel ? "comment-top-lvl" : "comment-top-child"}" data-id="${data.id}">
-                     <div class="comment-picture"><img src="${data.AuthorImgSrc ?? 'assets/img/anonyme.png'}" ></div>
+                     <div class="comment-picture"><img src="${data?.authorId?.picture ?? 'assets/img/anonyme.png'}" ></div>
                      <div class="comment-content-warp">
-                         <div class="comment-author">${data.Author  ?? 'name'}</div>
+                         <div class="comment-author">${data?.authorId?.name  ?? 'name'}</div>
                          <div class="comment-text">${data.commentText}</div>
                          <div class="comment-action">
                             <span class="comment-rating-number">${data.commentRating ?? 0}</span>
@@ -34,9 +34,10 @@
       },
       getCommentForm: (parentComment=null) => {
          return `<div class="comment-form"">
-                <textarea id="comment-form-inp"   ></textarea>
-                <button type="button" class="comment-form-submit btn"  data-parent="${parentComment ? parentComment : ''}"> submit </button>
-              </div>`;
+                  <img class="comment-avatar" src="${ localStorage.getItem('user') ?  JSON.parse(localStorage.getItem('user')).picture : ''}" width="50px">
+                  <textarea id="comment-form-inp"   ></textarea>
+                  <button type="button" class="comment-form-submit btn"  data-parent="${parentComment ? parentComment : ''}"> submit </button>
+                 </div>`;
       }
    }
 
@@ -50,7 +51,8 @@
             var textComment = $(this).parents(".comment-form").find("#comment-form-inp").val();
             var elm = $(this).parents(".comment-form")
             var pageId = $("#page-id").val();
-            commentService.addComment(parentComment,textComment,pageId,function(){
+            var user = JSON.parse(localStorage.getItem('user'));
+            commentService.addComment(parentComment,textComment,pageId,user,function(){
                if (parentComment) elm.remove();
                commentModule.reload();
             })
@@ -100,20 +102,5 @@
       commentModule.render();
    }
 
-
-
-   commentModule.initGoogleAuth = ()=>{
-
-       function onSignIn(googleUser) {
-       var id_token = googleUser.getAuthResponse().id_token;
-      console.log(api_url+'/google-auth')
-      api.call('POST',api_url+'/auth/google-auth',{
-         id_token: "id_token"
-      },function(){
-
-      })
-
-      }
-   }
 
 

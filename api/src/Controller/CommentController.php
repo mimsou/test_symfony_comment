@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comments;
 use App\Entity\User;
-use App\Repository\UsersRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,14 +23,14 @@ class CommentController extends AbstractController
     }
 
     #[Route('/get-last-comment', name: 'app_lastcomment')]
-    public function getLastComments(Request $request,CommentsRepository $repo,UsersRepository $userRepo): Response
+    public function getLastComments(Request $request,CommentsRepository $repo,UserRepository $userRepo): Response
     {
         $comments = $repo->getLastComments();
         return $this->response->success($comments);
     }
 
     #[Route('/get-comment', name: 'app_comment')]
-    public function getComments(Request $request,CommentsRepository $repo,UsersRepository $userRepo): Response
+    public function getComments(Request $request,CommentsRepository $repo,UserRepository $userRepo): Response
     {
         $comments = array($request->get("pageId"));
         if(!empty($request->get("pageId"))) {
@@ -42,11 +42,11 @@ class CommentController extends AbstractController
 
 
     #[Route('/add-comment', name: 'app_comments')]
-    public function addComment(Request $request,CommentsRepository $repo,UsersRepository $userRepo): Response
+    public function addComment(Request $request,CommentsRepository $repo,UserRepository $userRepo): Response
     {
         $comment = new Comments();
         $comment->setCommentText($request->get("commentText"));
-        $comment->setAuthorId($userRepo->find(1));
+        $comment->setAuthorId($userRepo->find($request->get("user")["id"]));
         $comment->setPageId($request->get("pageId"));
         $comment->setCreatDateTime(new \DateTime('now'));
         $comment->setParentId($repo->find($request->get("parentId")));

@@ -143,6 +143,18 @@
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/psr/http-client" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/psr/http-message" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/firebase/php-jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/paragonie/constant_time_encoding" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/paragonie/random_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/google/apiclient" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/google/apiclient-services" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/google/auth" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/phpseclib/phpseclib" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/stella-maris/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/lexik/jwt-authentication-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/psr/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/namshi/jose" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/lcobucci/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/lcobucci/jwt" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

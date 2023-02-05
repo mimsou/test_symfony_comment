@@ -42,7 +42,8 @@ class CommentsRepository extends ServiceEntityRepository
     public function getLastComments(): array
    {
         return $this->createQueryBuilder('c')
-            ->select("c")
+            ->select("c,u")
+            ->leftJoin('c.authorId','u')
             ->orderBy('c.creatDateTime', 'DESC')
             ->getQuery()->getArrayResult();
    }
@@ -50,8 +51,10 @@ class CommentsRepository extends ServiceEntityRepository
     public function getCommentByPageId($pageId): array
     {
         return $this->createQueryBuilder('c')
-            ->select("c,r")
+            ->select("c,r,u,uu")
             ->leftJoin('c.responses','r')
+            ->leftJoin('c.authorId','u')
+            ->leftJoin('r.authorId','uu')
             ->setParameter('val', $pageId)
             ->andWhere('c.pageId = :val')
             ->andWhere('c.parentId is null')

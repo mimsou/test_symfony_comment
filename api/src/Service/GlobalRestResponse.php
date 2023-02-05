@@ -4,11 +4,13 @@ namespace App\Service;
 
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Serializer;
 
 class GlobalRestResponse
 {
 
-     public function success(array $data = null , $message='succes' , int $responseCode=200) :JsonResponse{
+
+     public function success( $data = null , $message='succes' , int $responseCode=200) :JsonResponse{
          return new JsonResponse([
              'status'=>'1',
              'messsage'=> $message,
@@ -17,7 +19,7 @@ class GlobalRestResponse
          ],$responseCode);
       }
 
-    public function error(array $data = null , $message='succes' , int $responseCode=500) :JsonResponse{
+    public function error( $data = null , $message='succes' , int $responseCode=500) :JsonResponse{
         return new JsonResponse([
             'status'=>'0',
             'messsage'=> $message,
