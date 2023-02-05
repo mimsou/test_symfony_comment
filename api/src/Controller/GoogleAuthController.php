@@ -7,7 +7,6 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\JWTservice;
 use App\Service\GlobalRestResponse;
 use Google_Client;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -26,7 +25,7 @@ class GoogleAuthController extends AbstractController
         $this->response = $globalResponse;
     }
     #[Route('/google-auth', name: 'app_googleauth')]
-    public function handleGoogleAuth(Request $request,JWTservice $jwt,UserRepository $repo,JWTTokenManagerInterface $JWTManager)
+    public function handleGoogleAuth(Request $request,UserRepository $repo,JWTTokenManagerInterface $JWTManager)
     {
         $client = new Google_Client(['client_id' => '473502850114-hlm2upef1dgsdq675hja991uivhb75j9.apps.googleusercontent.com']);
         $payload = $client->verifyIdToken($request->get('id_token'));
